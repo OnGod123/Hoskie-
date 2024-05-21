@@ -1,0 +1,28 @@
+Hoskie_connect/
+├── backend/
+│   ├── app/
+│   │   ├── algorithms/
+│   │   │   ├── content/
+│   │   │   │   ├── trend_analysis.py
+│   │   │   │   ├── sentiment_analysis.py
+│   │   │   │   ├── spam_detection.py
+│   │   │   │   ├── influencer_detection.py
+│   │   │   │   ├── engagement_prediction.py
+│   │   │   │   ├── delivery_based_on_location.py
+│   │   │   │   ├── user_preference_based_content_recommendation.py
+│   │   │   │   ├── chat_analysis_for_advertising.py
+│   │   │   │   └── user_matching_based_on_profile_similarity.py
+│   │   │   └── __init__.py
+│   │   ├── __init__.py
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   ├── models.py
+│   │   ├── views.py
+│   │   ├── serializers.py
+│   │   ├── forms.py
+│   │   └── templates/
+│   └── manage.py
+└── frontend/
+    ├── public/
+    └── src/
+
