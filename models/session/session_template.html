@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <script>
+        function startTimer(duration, display) {
+            var timer = duration, minutes, seconds;
+            setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    timer = 0;
+                }
+            }, 1000);
+        }
+
+        window.onload = function () {
+            var remainingTime = {{ remaining_time.total_seconds|default:0 }};
+            var display = document.querySelector('#time');
+            startTimer(remainingTime, display);
+        };
+        
+        // Update last activity periodically to keep session alive
+        setInterval(function () {
+            fetch('/update_last_activity/', { method: 'POST', headers: { 'X-CSRFToken': '{{ csrf_token }}' } });
+        }, 300000);  // every 5 minutes
+    </script>
+</head>
+<body>
+    <h1>Welcome, {{ user_session.user.username }}</h1>
+    <p>Your session will expire in <span id="time"></span> minutes.</p>
+    <p><a href="{% url 'logout' %}">Logout</a></p>
+</body>
+</html>
+
