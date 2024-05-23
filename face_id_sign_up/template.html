@@ -1,0 +1,43 @@
+<!-- myapp/templates/index.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Image Capture</title>
+    <script>
+        function captureImage() {
+            const video = document.querySelector('video');
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+            return canvas.toDataURL('image/jpeg');
+        }
+
+        function sendImage() {
+            const socket = new WebSocket('ws://' + window.location.host + '/ws/image/');
+            socket.onopen = function () {
+                const imageData = captureImage();
+                const binaryData = atob(imageData.split(',')[1]);
+                const arrayBuffer = new ArrayBuffer(binaryData.length);
+                const uint8Array = new Uint8Array(arrayBuffer);
+                for (let i = 0; i < binaryData.length; i++) {
+                    uint8Array[i] = binaryData.charCodeAt(i);
+                }
+                socket.send(uint8Array.buffer);
+            };
+        }
+    </script>
+</head>
+<body>
+    <h1>Capture and Send Image</h1>
+    <video autoplay></video>
+    <button onclick="sendImage()">Capture and Send Image</button>
+    <script>
+        navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+            document.querySelector('video').srcObject = stream;
+        });
+    </script>
+</body>
+</html>
+
