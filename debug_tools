@@ -1,0 +1,39 @@
+import pdb; pdb.set_trace()
+pip install django-debug-toolbar
+The command you're looking for is s in the pdb debugger.
+
+s (step) executes the current line and stops at the first possible occasion (e.g., if the current line contains a function call, s will enter the called function and stop at the first line inside that function).
+Here's a quick overview of how you can use it:
+
+Start Debugging: When you hit a breakpoint using pdb.set_trace(), you'll be dropped into the debugger.
+
+Execute Current Line and Step: Press s. This will execute the current line of code and stop at the next line of code that is about to be executed.
+
+Repeat as Needed: You can continue to press s to step through each line of code.
+
+Inspect Variables: After stepping to a new line, you can inspect variables, evaluate expressions, and understand the state of your program.
+
+Here's an example debugging session using pdb:
+
+python
+Copy code
+> /path/to/myapp/views.py(10)my_view()
+-> context = {'message': 'Hello, world!'}
+(Pdb) s
+> /path/to/myapp/views.py(12)my_view()
+-> return render(request, 'myapp/index.html', context)
+(Pdb) s
+--Call--
+> /path/to/venv/lib/python3.8/site-packages/django/shortcuts.py(19)render()
+-> def render(request, template_name, context=None, content_type=None, status=None, using=None):
+In this example, s was used to step through the lines of code. After the first s, the debugger moved to the next line (return render(...)), and after the second s, it entered the render() function.
+
+Using s can be particularly useful for understanding the flow of execution through your code and pinpointing the exact line where an issue may occur.
+
+
+
+
+
+
+
+
