@@ -35,6 +35,17 @@ def submit(request):
         )
         person.save()
 
+        try:
+            # Send welcome email to the user
+            send_welcome_email(name, email)
+        except RuntimeError as e:
+            return HttpResponse(str(e))
+
+        return HttpResponse(f'Name: {name}, Email: {email}, Registration Successful. Check your email for a welcome message.')
+    else:
+        return HttpResponse('Invalid request method.')
+
+
         return HttpResponse(f'Name: {name}, Email: {email}')
     else:
         return HttpResponse('Invalid request method.')

@@ -1,0 +1,35 @@
+<!-- email_form.html -->
+
+<form id="email-form">
+    <textarea name="content" rows="4" cols="50"></textarea><br>
+    <button type="submit">Send Email</button>
+</form>
+
+<script>
+    document.getElementById('email-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var content = this.querySelector('textarea[name="content"]').value;
+
+        fetch('/send-email/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: 'content=' + encodeURIComponent(content)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                alert('Email sent successfully');
+            } else {
+                alert('Failed to send email');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred');
+        });
+    });
+</script>
+
